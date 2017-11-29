@@ -34,7 +34,7 @@ public class Luces extends javax.swing.JFrame {
             label.setIcon(off);
         }
         try {
-            arduino.arduinoTX("COM4", 9600);
+            arduino.arduinoTX("COM7", 9600);
         } catch (ArduinoException ex) {
             JOptionPane.showMessageDialog(null, "Error de comunicación con Arduino");
         }
