@@ -84,12 +84,11 @@ void loop()
     digitalWrite(O3Lg, HIGH);
   }
   if(entrada=="secuencia"){
-    if(sec==false){
-       sec = true;
-    }else{
-      sec = false;
-    }
+    sec = true;
   }
-  entrada = "";
+  if(entrada=="apagar"){
+    sec = false;
+  }
+
   if(sec==true) secuencia();
 }
