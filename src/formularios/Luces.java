@@ -11,6 +11,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import com.panamahitek.PanamaHitek_Arduino;
+import javax.swing.JButton;
+
 
 public class Luces extends javax.swing.JFrame {
     int encendidas=0, apagadas=0;
@@ -32,7 +34,7 @@ public class Luces extends javax.swing.JFrame {
             label.setIcon(off);
         }
         try {
-            arduino.arduinoTX("COM7", 9600);
+            arduino.arduinoTX("COM4", 9600);
         } catch (ArduinoException ex) {
             JOptionPane.showMessageDialog(null, "Error de comunicación con Arduino");
         }
@@ -499,7 +501,7 @@ public class Luces extends javax.swing.JFrame {
         jToolBar1.add(tbInfoLSeg);
         jToolBar1.add(jSeparator9);
 
-        Prueba.setText("111 Mil");
+        Prueba.setText("111 Mil Inactivo");
         Prueba.setFocusable(false);
         Prueba.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         Prueba.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -527,7 +529,7 @@ public class Luces extends javax.swing.JFrame {
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
+                .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -977,7 +979,19 @@ public class Luces extends javax.swing.JFrame {
 
     private void PruebaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PruebaActionPerformed
         try {
-            arduino.sendData("secuencia");
+            if (Prueba.getText()=="111 Mil Inactivo"){
+                apagarTodas();
+                desactivarTodas();
+                arduino.sendData("secuencia");
+                Prueba.setText("111 Mil Activo");
+            }else if (Prueba.getText()=="111 Mil Activo"){
+                activarTodas();
+                arduino.sendData("apagar");
+                
+                Prueba.setText("111 Mil Inactivo");
+            }
+            
+            
             //Secuencia desde Java. Cambiado a Arduino
 //            String txt1 = "O1Lp1\nO2Lp1\nO3Lp1\n";
 //            String txt1O = "O1Lp0\nO2Lp0\nO3Lp0\n";
@@ -1088,6 +1102,31 @@ public class Luces extends javax.swing.JFrame {
             chkOfi2Lp, chkOfi2Ls, chkOfi3LSeg, chkOfi3Lp, chkOfi3Ls};
         for (JCheckBox check : checks) {
             check.setSelected(false);
+        }
+    }
+    
+    public void desactivarTodas(){
+        JCheckBox [] checks = {chkOfi1LSeg, chkOfi1Lp, chkOfi1Ls, chkOfi2LSeg, 
+            chkOfi2Lp, chkOfi2Ls, chkOfi3LSeg, chkOfi3Lp, chkOfi3Ls};
+        for (JCheckBox check : checks) {
+            check.setEnabled(false);
+        }
+        
+        JButton [] botones = { tbApagar, tbDia, tbEncender, tbNoche};
+        for (JButton bot : botones) {
+            bot.setEnabled(false);
+        }
+    }
+    
+    public void activarTodas(){
+        JCheckBox [] checks = {chkOfi1LSeg, chkOfi1Lp, chkOfi1Ls, chkOfi2LSeg, 
+            chkOfi2Lp, chkOfi2Ls, chkOfi3LSeg, chkOfi3Lp, chkOfi3Ls};
+        for (JCheckBox check : checks) {
+            check.setEnabled(true);
+        }
+        JButton [] botones = { tbApagar, tbDia, tbEncender, tbNoche};
+        for (JButton bot : botones) {
+            bot.setEnabled(true);
         }
     }
     
